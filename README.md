@@ -42,15 +42,14 @@ If you provide a valid payload it will deliver the correct result as intended.
 It will check between the startDate and endDate, after selecting the correct interval it will find summation of the `counts` array in the DB and project it as `totalCount`.
 Another match process will happen to ensure `totalCount` is between `minCount` and `maxCount`.
 Final product will be delivered as a JSON which consists of `code`, `msg` and `records` fields.
-`code` can be either `0`, `1` or `2`. Defaults to `0`.
+`code` can be either `0`, `1`. Defaults to `0`.
 * `0` indicates `success`.
-* `1` indicates missing parameter in payload.
-* `2` indicates that min value is greater than max value or vice versa. Works for both date and count logic.
+* `1` indicates validation error.
   `msg` can be anything defined to explain the `code`. Defaults to `Success`.
   `records` is the filtered results given as an object.
 
 ## Sample inputs and outputs
-All of the below were performed by sending POST requests to https://golang-clean-rest-api.herokuapp.com/api/v1/mongo
+All of the below were performed by sending POST requests to https://golang-clean-rest-api.herokuapp.com/api/v1/records/search
 ```
 Request payload:
 {
@@ -94,8 +93,8 @@ Request payload: (Notice that minCount is greater than maxCount)
 ```
 Response payload:
 {
-    "code": 2,
-    "msg": "Minimum value is greater than maximum value"
+    "code": 1,
+    "msg": "maxCount must be greater than or equal to MinCount"
 }
 ```
 
@@ -112,13 +111,13 @@ Request payload: (Notice that endDate is less than startDate)
 ```
 Response payload:
 {
-    "code": 2,
-    "msg": "Minimum value is greater than maximum value"
+    "code": 1,
+    "msg": "endDate must be greater than or equal to StartDate"
 }
 ```
 
 ```
-Request payload: (Notice that one of the parameters is missing, randomly chosen)
+Request payload: (Notice that minCount parameter is missing, randomly chosen)
 {
     "startDate": "2016-01-26",
     "endDate": "2018-02-02",
@@ -130,6 +129,6 @@ Request payload: (Notice that one of the parameters is missing, randomly chosen)
 Response payload:
 {
     "code": 1,
-    "msg": "Missing JSON Body value(s)."
+    "msg": "minCount is a required field"
 }
 ```
