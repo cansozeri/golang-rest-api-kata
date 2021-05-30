@@ -1,0 +1,30 @@
+server:
+  AppVersion: 1.0.0
+  Port: :8080
+  Mode: Development
+  ReadTimeout: 10
+  WriteTimeout: 10
+  CtxDefaultTimeout: 12
+  Debug: false
+
+logger:
+  Development: true
+  DisableCaller: false
+  DisableStacktrace: false
+  Encoding: console
+  Level: info
+
+redis:
+  RedisAddr: redis:6379
+  RedisPassword:
+  RedisDb: 0
+  RedisDefaultDb: 0
+  MinIdleConns: 200
+  PoolSize: 12000
+  PoolTimeout: 240
+  Password: ""
+  DB: 0
+
+mongodb:
+  MongoURI: 'mongodb+srv://challengeUser:WUMglwNBaydH8Yvu@challenge-xzwqd.mongodb.net/getir-case-study?retryWrites=true&authSource=admin'
+  MongoDatabase: 'getir-case-study'
