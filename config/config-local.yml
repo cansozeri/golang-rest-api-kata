@@ -2,8 +2,8 @@ server:
   AppVersion: 1.0.0
   Port: :8080
   Mode: Development
-  ReadTimeout: 5
-  WriteTimeout: 5
+  ReadTimeout: 15
+  WriteTimeout: 15
   CtxDefaultTimeout: 12
   Debug: false
 

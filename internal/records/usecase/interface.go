@@ -1,10 +1,13 @@
 package usecase
 
-import "golang-rest-api-kata/internal/records/entity"
+import (
+	"golang-rest-api-kata/internal/records/entity"
+	"golang-rest-api-kata/internal/records/request"
+)
 
 //Reader interface
 type Reader interface {
-	Search(query string) ([]*entity.Record, error)
+	Search(request request.SearchRecord) ([]*entity.Record, error)
 	List() ([]*entity.Record, error)
 }
 
@@ -22,7 +25,7 @@ type Repository interface {
 
 //UseCase interface
 type UseCase interface {
-	SearchRecords(query string) ([]*entity.Record, error)
+	SearchRecords(request request.SearchRecord) ([]*entity.Record, error)
 	ListRecords() ([]*entity.Record, error)
 	CreateRecord(key string, counts []entity.Count, value string) error
 	UpdateRecord(e *entity.Record) error

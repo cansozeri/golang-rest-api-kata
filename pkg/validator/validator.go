@@ -9,13 +9,13 @@ import (
 	"strings"
 )
 
-type CustomValidator struct {
+type ApiValidator struct {
 	Validator *validator.Validate
 	uni       *ut.UniversalTranslator
 	trans     ut.Translator
 }
 
-func NewValidate() (*CustomValidator, error) {
+func NewValidate() (*ApiValidator, error) {
 	eng := en.New()
 	uni := ut.New(eng, eng)
 	trans, _ := uni.GetTranslator("en")
@@ -34,7 +34,7 @@ func NewValidate() (*CustomValidator, error) {
 		return name
 	})
 
-	return &CustomValidator{Validator: validate, uni: uni, trans: trans}, nil
+	return &ApiValidator{Validator: validate, uni: uni, trans: trans}, nil
 
 }
 
@@ -43,18 +43,20 @@ type ErrorMessage struct {
 	ErrorDescription string `json:"msg,omitempty"`
 }
 
-func (cv *CustomValidator) FormErrorMessage(err error) ErrorMessage {
+func (cv *ApiValidator) FormErrorMessage(err error) ErrorMessage {
 	var (
-		code = 1
+		code int
 		msg  string
 	)
 	switch err.(type) {
 	case validator.ValidationErrors:
+		code = 1
 		for _, v := range err.(validator.ValidationErrors) {
 			msg = v.Translate(cv.trans)
 			break
 		}
 	default:
+		code = 2
 		msg = err.Error()
 	}
 	return ErrorMessage{Error: code, ErrorDescription: msg}

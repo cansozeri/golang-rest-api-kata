@@ -6,10 +6,11 @@ import (
 )
 
 type Record struct {
-	Key       string    `bson:"key"`
-	Counts    []Count   `bson:"counts"`
-	Value     string    `bson:"value"`
-	CreatedAt time.Time `bson:"createdAt"`
+	Key        string    `bson:"key"`
+	Counts     []Count   `bson:"counts"`
+	Value      string    `bson:"value"`
+	TotalCount int       `bson:"totalCount,omitempty"`
+	CreatedAt  time.Time `bson:"createdAt"`
 }
 
 type Count struct {

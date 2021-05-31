@@ -17,7 +17,7 @@ func GetConfigPath(configPath string) string {
 	return "./config/config-local"
 }
 
-func ReadRequestBody(body io.Reader, to interface{}, v *validator.CustomValidator) error {
+func ReadRequestBody(body io.Reader, to interface{}, v *validator.ApiValidator) error {
 	data, err := ioutil.ReadAll(body)
 	if err != nil {
 		return err

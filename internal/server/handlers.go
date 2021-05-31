@@ -37,7 +37,7 @@ func (s *Server) MapHandlers() error {
 	recordHttp.MapRecordRoutes(s.httpRouter, recordHandlers, n)
 	memoryHttp.MapMemoryRoutes(s.httpRouter, memoryHandlers, n)
 
-	s.httpRouter.GET("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	s.httpRouter.GET("/health", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		s.logger.Info("Health check")
 		w.WriteHeader(http.StatusOK)
 	}))
