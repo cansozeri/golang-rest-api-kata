@@ -9,7 +9,7 @@ type Reader interface {
 
 //Writer book writer
 type Writer interface {
-	Create(e *entity.Memory) (entity.Memory, error)
+	Create(e *entity.Memory) (*entity.Memory, error)
 }
 
 //Repository interface
@@ -21,5 +21,5 @@ type Repository interface {
 //UseCase interface
 type UseCase interface {
 	GetInMemory(key string) (*entity.Memory, error)
-	CreateInMemory(key string, value string) (entity.Memory, error)
+	CreateInMemory(key string, value string) (*entity.Memory, error)
 }

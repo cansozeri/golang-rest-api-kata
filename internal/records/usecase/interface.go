@@ -7,7 +7,7 @@ import (
 
 //Reader interface
 type Reader interface {
-	Search(request request.SearchRecord) ([]*entity.Record, error)
+	Search(request request.SearchRecordRequest) ([]*entity.Record, error)
 	List() ([]*entity.Record, error)
 }
 
@@ -25,7 +25,7 @@ type Repository interface {
 
 //UseCase interface
 type UseCase interface {
-	SearchRecords(request request.SearchRecord) ([]*entity.Record, error)
+	SearchRecords(request request.SearchRecordRequest) ([]*entity.Record, error)
 	ListRecords() ([]*entity.Record, error)
 	CreateRecord(key string, counts []entity.Count, value string) error
 	UpdateRecord(e *entity.Record) error

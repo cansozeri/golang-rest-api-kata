@@ -5,8 +5,8 @@ import (
 )
 
 type Memory struct {
-	Key   string
-	Value string
+	Key   string `json:"key" validate:"required"`
+	Value string `json:"value" validate:"required"`
 }
 
 func NewInMemory(key string, value string) (*Memory, error) {

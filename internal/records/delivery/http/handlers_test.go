@@ -33,19 +33,19 @@ func TestRecordHandlers_SearchRecords(t *testing.T) {
 	apiLogger := logger.NewApiLogger(cfg)
 	recordHandlers := recordHttp.NewRecordHandlers(cfg, service, apiLogger)
 
-	b := &entity.Record{
+	e := &entity.Record{
 		Key:        "test",
 		CreatedAt:  time.Now(),
 		TotalCount: 2812,
 	}
 	service.EXPECT().
-		SearchRecords(request.SearchRecord{
+		SearchRecords(request.SearchRecordRequest{
 			StartDate: "2016-01-01",
 			EndDate:   "2016-02-02",
 			MinCount:  2700,
 			MaxCount:  3000,
 		}).
-		Return([]*entity.Record{b}, nil)
+		Return([]*entity.Record{e}, nil)
 
 	ts := httptest.NewServer(recordHandlers.SearchRecords())
 	defer ts.Close()

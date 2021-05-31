@@ -23,7 +23,7 @@ func NewRecordHandlers(cfg *config.Config, recordUC recordService.UseCase, log l
 
 func (rHandler *RecordHandlers) SearchRecords() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var post request.SearchRecord
+		var post request.SearchRecordRequest
 		validate, err := validator.NewValidate()
 
 		err = utils.ReadRequestBody(r.Body, &post, validate)

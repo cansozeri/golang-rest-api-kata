@@ -18,9 +18,14 @@ func NewService(r Repository, logger logger.Logger) *Service {
 }
 
 func (mem *Service) GetInMemory(key string) (*entity.Memory, error) {
-	panic("implement me")
+	return mem.repo.Get(key)
 }
 
-func (mem *Service) CreateInMemory(key string, value string) (entity.Memory, error) {
-	panic("implement me")
+func (mem *Service) CreateInMemory(key string, value string) (*entity.Memory, error) {
+	record := &entity.Memory{
+		Key:   key,
+		Value: value,
+	}
+
+	return mem.repo.Create(record)
 }

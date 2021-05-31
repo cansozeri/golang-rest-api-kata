@@ -19,7 +19,7 @@ func NewService(r Repository, logger logger.Logger) *Service {
 	}
 }
 
-func (rec *Service) SearchRecords(request request.SearchRecord) ([]*entity.Record, error) {
+func (rec *Service) SearchRecords(request request.SearchRecordRequest) ([]*entity.Record, error) {
 	records, err := rec.repo.Search(request)
 	if err != nil {
 		return nil, err

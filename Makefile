@@ -4,5 +4,5 @@ FORCE: ;
 
 build-mocks:
 	@go get github.com/golang/mock/gomock
-	@go install github.com/golang/mock/mockgen
-	@~/go/bin/mockgen -source=internal/records/usecase/interface.go -destination=internal/records/mock/record.go -package=mock
+	@~/go/bin/mockgen -source=internal/records/usecase/interface.go -destination=internal/records/mock/record.go -package=mock -build_flags=-mod=mod
+	@~/go/bin/mockgen -source=internal/memory/usecase/interface.go -destination=internal/memory/mock/memory.go -package=mock -build_flags=-mod=mod

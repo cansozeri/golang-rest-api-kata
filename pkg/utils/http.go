@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/schema"
 	"golang-rest-api-kata/pkg/validator"
 	"io"
 	"io/ioutil"
@@ -15,6 +16,23 @@ func GetConfigPath(configPath string) string {
 		return "./config/config-docker"
 	}
 	return "./config/config-local"
+}
+
+func ReadRequest(r *http.Request, to interface{}, v *validator.ApiValidator) (err error) {
+	if err = r.ParseForm(); err != nil {
+		return err
+	}
+
+	if err = schema.NewDecoder().Decode(to, r.Form); err != nil {
+		return err
+	}
+
+	if v != nil {
+		if err = v.Validator.Struct(to); err != nil {
+			return err
+		}
+	}
+	return err
 }
 
 func ReadRequestBody(body io.Reader, to interface{}, v *validator.ApiValidator) error {

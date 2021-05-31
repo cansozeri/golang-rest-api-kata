@@ -51,7 +51,7 @@ func (mr *MockReaderMockRecorder) List() *gomock.Call {
 }
 
 // Search mocks base method.
-func (m *MockReader) Search(request request.SearchRecord) ([]*entity.Record, error) {
+func (m *MockReader) Search(request request.SearchRecordRequest) ([]*entity.Record, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Search", request)
 	ret0, _ := ret[0].([]*entity.Record)
@@ -169,7 +169,7 @@ func (mr *MockRepositoryMockRecorder) List() *gomock.Call {
 }
 
 // Search mocks base method.
-func (m *MockRepository) Search(request request.SearchRecord) ([]*entity.Record, error) {
+func (m *MockRepository) Search(request request.SearchRecordRequest) ([]*entity.Record, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Search", request)
 	ret0, _ := ret[0].([]*entity.Record)
@@ -250,7 +250,7 @@ func (mr *MockUseCaseMockRecorder) ListRecords() *gomock.Call {
 }
 
 // SearchRecords mocks base method.
-func (m *MockUseCase) SearchRecords(request request.SearchRecord) ([]*entity.Record, error) {
+func (m *MockUseCase) SearchRecords(request request.SearchRecordRequest) ([]*entity.Record, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SearchRecords", request)
 	ret0, _ := ret[0].([]*entity.Record)

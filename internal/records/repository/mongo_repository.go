@@ -29,7 +29,7 @@ func (r *recordsRepo) Update(e *entity.Record) error {
 	panic("implement me")
 }
 
-func (r *recordsRepo) Search(request request.SearchRecord) (records []*entity.Record, err error) {
+func (r *recordsRepo) Search(request request.SearchRecordRequest) (records []*entity.Record, err error) {
 	collection := r.db.Collection("records")
 	startDate, _ := time.Parse(layoutISO, request.StartDate)
 	endDate, _ := time.Parse(layoutISO, request.EndDate)
