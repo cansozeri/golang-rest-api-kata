@@ -133,3 +133,105 @@ Response payload:
     "msg": "minCount is a required field"
 }
 ```
+### In-Memory Endpoint
+#### Create
+You should send a request to https://golang-clean-rest-api.herokuapp.com/api/v1/in-memory with a valid JSON payload.
+A valid payload consists of two parameters. `key` and `value`.
+If you fail to deliver any of these parameters error code 1 will greet you as the following.
+
+```
+{
+    "code": 1,
+    "msg": "{parameter} is a required field"
+}
+```
+
+If you provide a valid payload it will deliver the echo of the request as intended.
+
+####Get
+You should send a request to https://golang-clean-rest-api.herokuapp.com/api/v1/in-memory?key=active-tabs with a query parameter called key.
+If you fail to deliver key parameter error code 1 will greet you as the following.
+
+```
+{
+    "code": 1,
+    "msg": "key is a required field"
+}
+```
+## Sample inputs and outputs for In-Memory Endpoint
+All of the below were performed by sending POST requests to https://golang-clean-rest-api.herokuapp.com/api/v1/in-memory
+```
+Request payload:
+{
+    "key": "active-tabs",
+    "value": "getir"
+}
+```
+
+```
+Response payload:
+{
+    "key": "active-tabs",
+    "value": "getir"
+}
+```
+
+```
+Request payload: (Notice that key is missing)
+{
+    "key": "",
+    "value": "getir"
+}
+```
+
+```
+Response payload:
+{
+    "code": 1,
+    "msg": "key is a required field"
+}
+```
+
+```
+Request payload: (Notice that value is missing)
+{
+    "key": "active-tabs",
+    "value": ""
+}
+```
+
+```
+Response payload:
+{
+    "code": 1,
+    "msg": "value is a required field"
+}
+```
+
+All of the below were performed by sending GET requests to https://golang-clean-rest-api.herokuapp.com/api/v1/in-memory
+```
+Request:
+https://golang-clean-rest-api.herokuapp.com/api/v1/in-memory?key=active-tabs
+```
+
+```
+Response payload:
+{
+    "key": "active-tabs",
+    "value": "getir"
+}
+```
+
+```
+Request: (the key has not been created before)
+https://golang-clean-rest-api.herokuapp.com/api/v1/in-memory?key=not-in-memory
+```
+
+```
+Response payload:
+{
+    "code": 2,
+    "msg": "entity not found on database"
+}
+```
+
