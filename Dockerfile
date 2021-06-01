@@ -27,6 +27,7 @@ RUN apk --no-cache add redis \
 RUN mkdir -p /etc/supervisor/conf.d/
 RUN mkdir -p /rest-api-kata
 RUN mkdir -p /rest-api-kata/config
+RUN mkdir -p /data
 
 RUN cp /usr/share/zoneinfo/Europe/Istanbul /etc/localtime
 RUN echo "Europe/Istanbul" > /etc/timezone
