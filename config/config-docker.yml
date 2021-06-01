@@ -1,6 +1,6 @@
 server:
   AppVersion: 1.0.0
-  Port: :8080
+  Port: 0.0.0.0:8080
   Mode: Development
   ReadTimeout: 10
   WriteTimeout: 10
@@ -15,7 +15,7 @@ logger:
   Level: info
 
 redis:
-  RedisAddr: redis:6379
+  RedisAddr: localhost:6379
   RedisPassword:
   RedisDb: 0
   RedisDefaultDb: 0

@@ -28,9 +28,15 @@ type Server struct {
 }
 
 func NewServer(cfg *config.Config, db *mongo.Database, redisClient *redis.Client, logger logger.Logger) *Server {
+	var port string
 
+	if os.Getenv("PORT") != "" {
+		port = ":" + os.Getenv("PORT")
+	} else {
+		port = cfg.Server.Port
+	}
 	s := &http.Server{
-		Addr:           cfg.Server.Port,
+		Addr:           port,
 		ReadTimeout:    time.Second * cfg.Server.ReadTimeout,
 		WriteTimeout:   time.Second * cfg.Server.WriteTimeout,
 		MaxHeaderBytes: maxHeaderBytes,
