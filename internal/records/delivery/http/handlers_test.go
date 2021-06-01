@@ -20,6 +20,8 @@ import (
 )
 
 func TestRecordHandlers_SearchRecords(t *testing.T) {
+	t.Parallel()
+
 	controller := gomock.NewController(t)
 	defer controller.Finish()
 	service := mock.NewMockUseCase(controller)

@@ -17,6 +17,8 @@ import (
 )
 
 func TestMemoryHandlers_CreateInMemory(t *testing.T) {
+	t.Parallel()
+
 	controller := gomock.NewController(t)
 	defer controller.Finish()
 	service := mock.NewMockUseCase(controller)
@@ -61,5 +63,43 @@ func TestMemoryHandlers_CreateInMemory(t *testing.T) {
 }
 
 func TestMemoryHandlers_GetInMemory(t *testing.T) {
+	t.Parallel()
+
+	controller := gomock.NewController(t)
+	defer controller.Finish()
+	service := mock.NewMockUseCase(controller)
+
+	cfg := &config.Config{
+		Logger: config.Logger{
+			Development: true,
+		},
+	}
+
+	apiLogger := logger.NewApiLogger(cfg)
+	memoryHandlers := memoryHttp.NewMemoryHandlers(cfg, service, apiLogger)
+
+	e := &entity.Memory{
+		Key:   "test",
+		Value: "test",
+	}
+
+	service.EXPECT().GetInMemory(e.Key).Return(e, nil)
+
+	ts := httptest.NewServer(memoryHandlers.GetInMemory())
+	defer ts.Close()
+
+	resp, err := http.Get(ts.URL + "/in-memory?key=test")
+
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
+
+	r := &entity.Memory{}
+	err = json.NewDecoder(resp.Body).Decode(r)
+	if err != nil {
+		t.Error(err)
+	}
+
+	assert.Equal(t, "test", r.Key)
+	assert.Equal(t, "test", r.Value)
 
 }

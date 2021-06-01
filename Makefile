@@ -2,6 +2,21 @@
 all: build
 FORCE: ;
 
+# ==============================================================================
+# Main
+
+run:
+	go run ./cmd/api/main.go
+
+build:
+	go build ./cmd/api/main.go
+
+test:
+	go test -cover ./...
+
+# ==============================================================================
+# Build Mocks
+
 build-mocks:
 	@go get github.com/golang/mock/gomock
 	@~/go/bin/mockgen -source=internal/records/usecase/interface.go -destination=internal/records/mock/record.go -package=mock -build_flags=-mod=mod

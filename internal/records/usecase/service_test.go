@@ -4,6 +4,7 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
 	"golang-rest-api-kata/config"
+	"golang-rest-api-kata/internal/records/delivery/presenter"
 	"golang-rest-api-kata/internal/records/entity"
 	"golang-rest-api-kata/internal/records/mock"
 	"golang-rest-api-kata/internal/records/request"
@@ -13,11 +14,9 @@ import (
 	"time"
 )
 
-func TestNewService(t *testing.T) {
-
-}
-
 func TestService_SearchRecords(t *testing.T) {
+	t.Parallel()
+
 	controller := gomock.NewController(t)
 	defer controller.Finish()
 
@@ -53,4 +52,18 @@ func TestService_SearchRecords(t *testing.T) {
 	require.NoError(t, err)
 	require.Nil(t, err)
 	require.NotNil(t, recordList)
+
+	toJ := presenter.RecordPresenter{Msg: "Success"}
+
+	for _, d := range recordList {
+		toJ.Records = append(toJ.Records, &presenter.Record{
+			Key:        d.Key,
+			CreatedAt:  d.CreatedAt,
+			TotalCount: d.TotalCount,
+		})
+	}
+
+	require.Equal(t, 0, toJ.Code)
+	require.Equal(t, "Success", toJ.Msg)
+	require.Equal(t, 1, len(toJ.Records))
 }
