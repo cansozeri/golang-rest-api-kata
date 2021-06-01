@@ -148,7 +148,7 @@ If you fail to deliver any of these parameters error code 1 will greet you as th
 
 If you provide a valid payload it will deliver the echo of the request as intended.
 
-####Get
+#### Get
 You should send a request to https://golang-clean-rest-api.herokuapp.com/api/v1/in-memory?key=active-tabs with a query parameter called key.
 If you fail to deliver key parameter error code 1 will greet you as the following.
 
