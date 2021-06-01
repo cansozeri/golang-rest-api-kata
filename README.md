@@ -235,3 +235,8 @@ Response payload:
 }
 ```
 
+### Local Deployment
+If you want to run this project on your local machine use "make docker-run" command.
+
+You can use localhost:8080 as a host to reach the endpoints.
+
