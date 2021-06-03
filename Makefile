@@ -27,4 +27,4 @@ build-mocks:
 
 docker-run:
 	docker build . -t clean-rest-api:dev
-	docker run -it -p 8080:8080 clean-arch:dev
+	docker run -it -p 8080:8080 clean-rest-api:dev

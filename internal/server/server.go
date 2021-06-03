@@ -42,7 +42,7 @@ func NewServer(cfg *config.Config, db *mongo.Database, redisClient *redis.Client
 		MaxHeaderBytes: maxHeaderBytes,
 	}
 
-	return &Server{httpRouter: router.NewMuxRouter(s), cfg: cfg, db: db, redisClient: redisClient, logger: logger}
+	return &Server{httpRouter: router.NewChiRouter(s), cfg: cfg, db: db, redisClient: redisClient, logger: logger}
 }
 
 func (s *Server) Run() (err error) {
