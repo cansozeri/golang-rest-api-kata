@@ -186,14 +186,6 @@ func (l *apiLogger) Fatalj(j log.JSON) {
 	l.sugarLogger.Fatalw(string(b))
 }
 
-func (l *apiLogger) V(level int) InfoLogger {
-	return &apiLogger{
-		level:       level,
-		verbosity:   l.verbosity,
-		sugarLogger: l.sugarLogger,
-	}
-}
-
 func (l *apiLogger) WithField(key string, value interface{}) Logger {
 
 	fields := Fields{
@@ -218,10 +210,6 @@ func (l *apiLogger) WithFields(fields map[string]interface{}) Logger {
 		verbosity:   l.verbosity,
 		sugarLogger: l.sugarLogger.With(f...),
 	}
-}
-
-func (l *apiLogger) Enabled() bool {
-	return l.level <= l.verbosity
 }
 
 func prepareForWith(fields Fields) []interface{} {

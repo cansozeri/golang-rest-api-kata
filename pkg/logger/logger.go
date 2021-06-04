@@ -7,17 +7,9 @@ import (
 type Fields map[string]interface{}
 
 type InfoLogger interface {
-	// Info logs a non-error message. Like fmt.Print.
 	Info(args ...interface{})
-
-	// Infof logs a formatted non-error message.
 	Infof(format string, args ...interface{})
 	Infoj(j log.JSON)
-
-	// Enabled test whether this InfoLogger is enabled.  For example,
-	// commandline flags might be used to set the logging verbosity and disable
-	// some info logs.
-	Enabled() bool
 }
 
 type Logger interface {
@@ -51,9 +43,6 @@ type Logger interface {
 	Fatalf(format string, args ...interface{})
 	Fatalj(j log.JSON)
 
-	V(level int) InfoLogger
-
 	WithField(key string, value interface{}) Logger
-
 	WithFields(fields map[string]interface{}) Logger
 }
