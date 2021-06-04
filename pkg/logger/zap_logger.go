@@ -1,6 +1,8 @@
 package logger
 
 import (
+	"encoding/json"
+	"github.com/labstack/gommon/log"
 	"golang-rest-api-kata/config"
 	"os"
 
@@ -8,28 +10,15 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-type Logger interface {
-	InitLogger()
-	Debug(args ...interface{})
-	Debugf(template string, args ...interface{})
-	Info(args ...interface{})
-	Infof(template string, args ...interface{})
-	Warn(args ...interface{})
-	Warnf(template string, args ...interface{})
-	Error(args ...interface{})
-	Errorf(template string, args ...interface{})
-	DPanic(args ...interface{})
-	DPanicf(template string, args ...interface{})
-	Fatal(args ...interface{})
-	Fatalf(template string, args ...interface{})
-}
-
 type apiLogger struct {
+	Logger
+	level       int
+	verbosity   int
 	cfg         *config.Config
 	sugarLogger *zap.SugaredLogger
 }
 
-func NewApiLogger(cfg *config.Config) *apiLogger {
+func NewZapApiLogger(cfg *config.Config) *apiLogger {
 	return &apiLogger{cfg: cfg}
 }
 
@@ -93,54 +82,155 @@ func (l *apiLogger) Debug(args ...interface{}) {
 	l.sugarLogger.Debug(args...)
 }
 
-func (l *apiLogger) Debugf(template string, args ...interface{}) {
-	l.sugarLogger.Debugf(template, args...)
+func (l *apiLogger) Debugf(format string, args ...interface{}) {
+	l.sugarLogger.Debugf(format, args...)
+}
+
+func (l *apiLogger) Debugj(j log.JSON) {
+	b, err := json.Marshal(j)
+	if err != nil {
+		panic(err)
+	}
+	l.sugarLogger.Debugw(string(b))
+}
+
+func (l *apiLogger) Print(i ...interface{}) {
+	l.Info(i...)
+}
+
+func (l *apiLogger) Printf(format string, args ...interface{}) {
+	l.Infof(format, args...)
+}
+
+func (l *apiLogger) Printj(j log.JSON) {
+	l.Infoj(j)
 }
 
 func (l *apiLogger) Info(args ...interface{}) {
 	l.sugarLogger.Info(args...)
 }
 
-func (l *apiLogger) Infof(template string, args ...interface{}) {
-	l.sugarLogger.Infof(template, args...)
+func (l *apiLogger) Infof(format string, args ...interface{}) {
+	l.sugarLogger.Infof(format, args...)
+}
+
+func (l *apiLogger) Infoj(j log.JSON) {
+	b, err := json.Marshal(j)
+	if err != nil {
+		panic(err)
+	}
+	l.sugarLogger.Infow(string(b))
 }
 
 func (l *apiLogger) Warn(args ...interface{}) {
 	l.sugarLogger.Warn(args...)
 }
 
-func (l *apiLogger) Warnf(template string, args ...interface{}) {
-	l.sugarLogger.Warnf(template, args...)
+func (l *apiLogger) Warnf(format string, args ...interface{}) {
+	l.sugarLogger.Warnf(format, args...)
+}
+
+func (l *apiLogger) Warnj(j log.JSON) {
+	b, err := json.Marshal(j)
+	if err != nil {
+		panic(err)
+	}
+	l.sugarLogger.Warnw(string(b))
 }
 
 func (l *apiLogger) Error(args ...interface{}) {
 	l.sugarLogger.Error(args...)
 }
 
-func (l *apiLogger) Errorf(template string, args ...interface{}) {
-	l.sugarLogger.Errorf(template, args...)
+func (l *apiLogger) Errorf(format string, args ...interface{}) {
+	l.sugarLogger.Errorf(format, args...)
 }
 
-func (l *apiLogger) DPanic(args ...interface{}) {
-	l.sugarLogger.DPanic(args...)
-}
-
-func (l *apiLogger) DPanicf(template string, args ...interface{}) {
-	l.sugarLogger.DPanicf(template, args...)
+func (l *apiLogger) Errorj(j log.JSON) {
+	b, err := json.Marshal(j)
+	if err != nil {
+		panic(err)
+	}
+	l.sugarLogger.Errorw(string(b))
 }
 
 func (l *apiLogger) Panic(args ...interface{}) {
 	l.sugarLogger.Panic(args...)
 }
 
-func (l *apiLogger) Panicf(template string, args ...interface{}) {
-	l.sugarLogger.Panicf(template, args...)
+func (l *apiLogger) Panicf(format string, args ...interface{}) {
+	l.sugarLogger.Panicf(format, args...)
+}
+
+func (l *apiLogger) Panicj(j log.JSON) {
+	b, err := json.Marshal(j)
+	if err != nil {
+		panic(err)
+	}
+	l.sugarLogger.Panicw(string(b))
 }
 
 func (l *apiLogger) Fatal(args ...interface{}) {
 	l.sugarLogger.Fatal(args...)
 }
 
-func (l *apiLogger) Fatalf(template string, args ...interface{}) {
-	l.sugarLogger.Fatalf(template, args...)
+func (l *apiLogger) Fatalf(format string, args ...interface{}) {
+	l.sugarLogger.Fatalf(format, args...)
+}
+
+func (l *apiLogger) Fatalj(j log.JSON) {
+	b, err := json.Marshal(j)
+	if err != nil {
+		panic(err)
+	}
+	l.sugarLogger.Fatalw(string(b))
+}
+
+func (l *apiLogger) V(level int) InfoLogger {
+	return &apiLogger{
+		level:       level,
+		verbosity:   l.verbosity,
+		sugarLogger: l.sugarLogger,
+	}
+}
+
+func (l *apiLogger) WithField(key string, value interface{}) Logger {
+
+	fields := Fields{
+		key: value,
+	}
+
+	f := prepareForWith(fields)
+
+	return &apiLogger{
+		level:       l.level,
+		verbosity:   l.verbosity,
+		sugarLogger: l.sugarLogger.With(f...),
+	}
+}
+
+func (l *apiLogger) WithFields(fields map[string]interface{}) Logger {
+
+	f := prepareForWith(fields)
+
+	return &apiLogger{
+		level:       l.level,
+		verbosity:   l.verbosity,
+		sugarLogger: l.sugarLogger.With(f...),
+	}
+}
+
+func (l *apiLogger) Enabled() bool {
+	return l.level <= l.verbosity
+}
+
+func prepareForWith(fields Fields) []interface{} {
+
+	var f = make([]interface{}, 0)
+	for k, v := range fields {
+		f = append(f, k)
+		f = append(f, v)
+	}
+
+	return f
 }

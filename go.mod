@@ -14,6 +14,7 @@ require (
 	github.com/gomodule/redigo v1.8.4 // indirect
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/schema v1.2.0
+	github.com/labstack/gommon v0.3.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.7.0
