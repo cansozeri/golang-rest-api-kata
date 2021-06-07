@@ -44,7 +44,7 @@ func (r *recordsRepo) Search(request request.SearchRecordRequest) (records []*en
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
-	cursor, err := collection.Aggregate(context.TODO(), pipeline)
+	cursor, err := collection.Aggregate(ctx, pipeline)
 
 	if err != nil {
 		return nil, err

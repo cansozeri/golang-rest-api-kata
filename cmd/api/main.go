@@ -12,8 +12,6 @@ import (
 )
 
 func main() {
-	log.Println("Starting api server")
-
 	configPath := utils.GetConfigPath(os.Getenv("config"))
 
 	cfgFile, err := config.LoadConfig(configPath)
@@ -29,6 +27,7 @@ func main() {
 	appLogger := logger.NewZapApiLogger(cfg)
 
 	appLogger.InitLogger()
+	appLogger.Info("Starting api server")
 	appLogger.Infof("AppVersion: %s, LogLevel: %s, Mode: %s", cfg.Server.AppVersion, cfg.Logger.Level, cfg.Server.Mode)
 
 	mongoDB, err := mongo.NewMongoDb(cfg)
