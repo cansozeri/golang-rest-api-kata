@@ -26,5 +26,5 @@ redis:
   DB: 0
 
 mongodb:
-  MongoURI: 'mongodb+srv://challengeUser:WUMglwNBaydH8Yvu@challenge-xzwqd.mongodb.net/getir-case-study?retryWrites=true&authSource=admin'
-  MongoDatabase: 'getir-case-study'
+  MongoURI: 'mongodb+srv://${user}:${password}@${mongo_host}/${mongo_database}?retryWrites=true&authSource=admin'
+  MongoDatabase: '${mongo_database}'
